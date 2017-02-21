@@ -8,13 +8,10 @@ import subprocess
 
 
 class lfstest(object):
-    def __init__(self, file_name=None, data_dir='data', test_type=None,
+    def __init__(self, file_name=None, data_dir=None, test_type=None,
                  *args, **kwargs):
         self.named_attrib = kwargs
-        if test_type is not None:
-            self.named_attrib['type'] = test_type
-        else:
-            self.named_attrib['type'] = None
+        self.named_attrib['type'] = test_type
         self.attrib = args
         self.file_name = file_name
         self.data_dir = data_dir
@@ -52,15 +49,17 @@ class lfstest(object):
         return wrapper
 
     def _get_file(self, file_name, data_dir, test_type, mod):
-        if test_type is not None:
-            file_name_relative = os.path.join(data_dir, test_type, file_name)
-        else:
-            file_name_relative = os.path.join(data_dir, file_name)
+        if data_dir is None:
+            data_dir = ''
+        if test_type is None:
+            test_type = ''
+        file_name_relative = os.path.join(data_dir, test_type, file_name)
         file_name = pkg_resources.resource_filename(
             mod, file_name_relative
             )
         if not os.path.isfile(file_name):
-            raise IOError('Filename or Pointer not available.')
+            raise IOError('Filename or Pointer ({}) is not available.'.format(
+                file_name))
         elif os.path.getsize(file_name) < 300:
             with open(file_name) as open_file:
                 check_words = [next(open_file).split(' ')[0] for x in range(3)]
@@ -68,7 +67,7 @@ class lfstest(object):
                 process = subprocess.Popen(
                     shlex.split(
                         'git lfs pull --include="{}" --exclude=""'.format(
-                            os.path.join('tests', file_name_relative))),
+                            os.path.join('**', file_name_relative))),
                     stdout=subprocess.PIPE
                     )
                 output, error = process.communicate()
