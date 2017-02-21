@@ -1,5 +1,9 @@
-Nose Focus
+NoseLFS
 ==========
+
+
+.. image:: https://travis-ci.org/grantstephens/noselfs.svg?branch=master
+    :target: https://travis-ci.org/grantstephens/noselfs
 
 This provides a nice little decorator that extends the nose attrib decorator
 and adds a git lfs argument which will pull any needed lfs files for the test
