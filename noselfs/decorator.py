@@ -1,6 +1,7 @@
 from functools import wraps
 from nose.plugins.attrib import attr
 from nose.tools import nottest
+from nose.tools import istest
 import os
 import pkg_resources
 import shlex
@@ -32,17 +33,19 @@ class lfstest(object):
             else:
                 self.file_name = self._get_file(
                     self.file_name, self.named_attrib['type'], mod)
+            file_name_pass = self.file_name
+        else:
+            file_name_pass = None
 
-        def wrapped_f(*args):
-
-            @attr(*self.attrib, **self.named_attrib)
-            @wraps(f)
-            def wrapper(self, *args, **kwargs):
-                if self.file_name is None:
-                    return f(self, *args, **kwargs)
-                else:
-                        return f(self, self.file_name, *args, **kwargs)
-        return wrapped_f
+        @attr(*self.attrib, **self.named_attrib)
+        @wraps(f)
+        def wrapper(self, *args, **kwargs):
+            print 'run'
+            if file_name_pass is None:
+                f(self, *args, **kwargs)
+            else:
+                f(self, file_name_pass, *args, **kwargs)
+        return wrapper
 
     def _get_file(self, file_name, test_type, mod):
         file_name_relative = os.path.join('data', test_type, file_name)
