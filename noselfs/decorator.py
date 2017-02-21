@@ -8,11 +8,16 @@ import subprocess
 
 
 class lfstest(object):
-    def __init__(self, test_type, file_name=None, *args, **kwargs):
+    def __init__(self, file_name=None, data_dir='data', test_type=None,
+                 *args, **kwargs):
         self.named_attrib = kwargs
-        self.named_attrib['type'] = test_type
+        if test_type is not None:
+            self.named_attrib['type'] = test_type
+        else:
+            self.named_attrib['type'] = None
         self.attrib = args
         self.file_name = file_name
+        self.data_dir = data_dir
 
     def __call__(self, f):
         """
@@ -26,11 +31,13 @@ class lfstest(object):
                 output = []
                 for file_n in self.file_name:
                     output.append(
-                        self._get_file(file_n, self.named_attrib['type'], mod))
+                        self._get_file(file_n, self.data_dir,
+                                       self.named_attrib['type'], mod))
                 self.file_name = output
             else:
                 self.file_name = self._get_file(
-                    self.file_name, self.named_attrib['type'], mod)
+                    self.file_name, self.data_dir,
+                    self.named_attrib['type'], mod)
             file_name_pass = self.file_name
         else:
             file_name_pass = None
@@ -44,8 +51,11 @@ class lfstest(object):
                 f(self, file_name_pass, *args, **kwargs)
         return wrapper
 
-    def _get_file(self, file_name, test_type, mod):
-        file_name_relative = os.path.join('data', test_type, file_name)
+    def _get_file(self, file_name, data_dir, test_type, mod):
+        if test_type is not None:
+            file_name_relative = os.path.join(data_dir, test_type, file_name)
+        else:
+            file_name_relative = os.path.join(data_dir, file_name)
         file_name = pkg_resources.resource_filename(
             mod, file_name_relative
             )

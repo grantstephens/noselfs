@@ -18,7 +18,7 @@ Just use the focus decorator in your tests:
 
     from noselfs import noselfs
 
-    @noselfs('unit','filename.ext')
+    @noselfs('filename.ext', 'data', 'unit')
     def test_my_amazing_feature(file_name):
         with open(file_name) as open_file:
             # Whatever

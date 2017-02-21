@@ -11,7 +11,7 @@ def dummy():
 class TestNoseLFSDecorator(unittest.TestCase):
 
     def test_file_name(self):
-        lfsf = lfstest('unit', 'test_file.txt')
+        lfsf = lfstest('test_file.txt', 'data', 'unit')
         lfsf(dummy)
         file_name_relative = os.path.join('data', 'unit', 'test_file.txt')
         file_name = pkg_resources.resource_filename(
@@ -20,7 +20,7 @@ class TestNoseLFSDecorator(unittest.TestCase):
         self.assertEqual(lfsf.file_name, file_name)
 
     def test_file_exists(self):
-        lfsf = lfstest('unit', 'test_fake_file.txt')
+        lfsf = lfstest('test_fake_file.txt','data','unit')
         with self.assertRaises(IOError):
             lfsf(dummy)
 
