@@ -26,10 +26,12 @@ class lfstest(object):
             if isinstance(self.file_name, list):
                 output = []
                 for file_n in self.file_name:
-                    output.append(self._get_file(file_n, self.named_attrib['type'], mod))
+                    output.append(
+                        self._get_file(file_n, self.named_attrib['type'], mod))
                 self.file_name = output
             else:
-                self.file_name = self._get_file(self.file_name, self.named_attrib['type'], mod)
+                self.file_name = self._get_file(
+                    self.file_name, self.named_attrib['type'], mod)
 
         def wrapped_f(*args):
 
@@ -51,11 +53,12 @@ class lfstest(object):
             raise IOError('Filename or Pointer not available.')
         elif os.path.getsize(file_name) < 300:
             with open(file_name) as open_file:
-                check_words = [next(open_file).split(' ')[0] for x in xrange(3)]
+                check_words = [next(open_file).split(' ')[0] for x in range(3)]
             if all(word in check_words for word in ['version', 'size', 'oid']):
                 process = subprocess.Popen(
-                    shlex.split('git lfs pull --include="{}" --exclude=""'.format(
-                        os.path.join('tests', file_name_relative))),
+                    shlex.split(
+                        'git lfs pull --include="{}" --exclude=""'.format(
+                            os.path.join('tests', file_name_relative))),
                     stdout=subprocess.PIPE
                     )
                 output, error = process.communicate()
