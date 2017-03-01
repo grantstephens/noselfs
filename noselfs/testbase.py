@@ -1,4 +1,4 @@
-import os, errno, stat, shutil, unittest, uuid, tempfile
+import os, shutil, unittest, uuid, tempfile
 from .decorator import lfstest
 
 
@@ -12,9 +12,12 @@ class LfsTestBase(unittest.TestCase):
     def tearDown(self):
         # remove temp test directory
         if os.path.exists(self.testdir):
-            shutil.rmtree(self.testdir, ignore_errors=False, onerror=handle_remove_readonly)
+            shutil.rmtree(self.testdir)
 
-    def get_file(self, abs_src, reldest):
+    def get_file(self, abs_src, reldest=None):
+        if reldest is None or reldest == '':
+            reldest = os.path.split(abs_src)[1]
+
         abs_src = lfstest().lfs_pull(abs_src)
         abs_dest = os.path.join(self.testdir, reldest)
 
@@ -25,12 +28,3 @@ class LfsTestBase(unittest.TestCase):
                 os.makedirs(dir)
         shutil.copy(abs_src, abs_dest)
         return abs_dest
-
-
-def handle_remove_readonly(func, path, exc):
-    excvalue = exc[1]
-    if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
-        os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)  # 0777
-        func(path)
-    else:
-        raise
