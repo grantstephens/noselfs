@@ -1,11 +1,11 @@
 from noselfs import LfsTestBase
-import unittest
 import os
 
 
 class TestUnitTestBaseClass(LfsTestBase):
     def test_get_file(self):
-        abs_src = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'data/unit/test_file.txt')
+        abs_src = os.path.join(os.path.split(
+            os.path.realpath(__file__))[0], 'data/unit/test_file.txt')
         filepath = self.get_file(abs_src)
 
         self.assertNotEquals(abs_src, filepath)

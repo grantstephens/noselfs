@@ -20,9 +20,6 @@ class TestNoseLFSDecorator(unittest.TestCase):
         self.assertEqual(lfsf.file_name, file_name)
 
     def test_file_exists(self):
-        lfsf = lfstest('test_fake_file.txt','data','unit')
+        lfsf = lfstest('test_fake_file.txt', 'data', 'unit')
         with self.assertRaises(IOError):
             lfsf(dummy)
-
-    # def test_lfs_exception(self):
-    #     lfsf = lfstest('unit', 'fake_pointer.txt')

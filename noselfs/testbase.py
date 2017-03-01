@@ -5,7 +5,8 @@ from .decorator import lfstest
 class LfsTestBase(unittest.TestCase):
     def setUp(self):
         # set up temp test directory (sandboxed for each unit test)
-        self.testdir = os.path.join(tempfile.gettempdir(), str(uuid.uuid4()).replace('-', ''))
+        self.testdir = os.path.join(tempfile.gettempdir(),
+                                    str(uuid.uuid4()).replace('-', ''))
         if not os.path.exists(self.testdir):
             os.makedirs(self.testdir)
 
