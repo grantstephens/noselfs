@@ -46,6 +46,7 @@ class lfstest(object):
                 f(self, *args, **kwargs)
             else:
                 f(self, file_name_pass, *args, **kwargs)
+
         return wrapper
 
     def _get_file(self, file_name, data_dir, test_type, mod):
@@ -56,7 +57,10 @@ class lfstest(object):
         file_name_relative = os.path.join(data_dir, test_type, file_name)
         file_name = pkg_resources.resource_filename(
             mod, file_name_relative
-            )
+        )
+        return self.lfs_pull(file_name)
+
+    def lfs_pull(self, file_name):
         if not os.path.isfile(file_name):
             raise IOError('Filename or Pointer ({}) is not available.'.format(
                 file_name))
@@ -69,10 +73,10 @@ class lfstest(object):
                         'git lfs pull --include="{}" --exclude=""'.format(
                             os.path.join('**', file_name_relative))),
                     stdout=subprocess.PIPE
-                    )
+                )
                 output, error = process.communicate()
                 if error is not None:
                     raise Exception(
                         'Tried LFS pull. Failed with: {}'.format(error)
-                        )
+                    )
         return file_name
