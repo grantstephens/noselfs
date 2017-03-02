@@ -1,7 +1,8 @@
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 """
 Changelog:
+0.0.7: Testbase remote fix
 0.0.6: Versioning weirdness
 0.0.5: Fix rel path error
 0.0.4: Add Base test class for sandboxed tests
