@@ -1,7 +1,8 @@
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 
 """
 Changelog:
+0.0.6: Versioning weirdness
 0.0.5: Fix rel path error
 0.0.4: Add Base test class for sandboxed tests
 0.0.3: Change to the way lfs looks for files- has a greater chance of finding
