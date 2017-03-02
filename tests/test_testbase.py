@@ -4,11 +4,10 @@ import os
 
 class TestUnitTestBaseClass(LfsTestBase):
     def test_get_file(self):
-        abs_src = os.path.join(os.path.split(
-            os.path.realpath(__file__))[0], 'data/unit/test_file.txt')
-        filepath = self.get_file(abs_src)
+        datadir = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'data/unit')
+        filepath = self.get_file(datadir, 'test_file.txt')
 
-        self.assertNotEquals(abs_src, filepath)
+        self.assertNotEquals(os.path.join(datadir, 'test_file.txt'), filepath)
         self.assertTrue(os.path.isfile(filepath))
 
 
