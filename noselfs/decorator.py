@@ -58,6 +58,7 @@ class lfstest(object):
         file_name = pkg_resources.resource_filename(
             mod, file_name_relative
         )
+
         return self.lfs_pull(file_name, file_name_relative)
 
     def lfs_pull(self, file_name, file_name_relative):

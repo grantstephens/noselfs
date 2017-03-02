@@ -19,7 +19,11 @@ class LfsTestBase(unittest.TestCase):
         if reldest is None or reldest == '':
             reldest = os.path.split(abs_src)[1]
 
+<<<<<<< HEAD
         abs_src = lfstest().lfs_pull(abs_src, reldest)
+=======
+        abs_src = lfstest().lfs_pull(abs_src)
+>>>>>>> 2dca3252450acbbc925c46a17c08c068e4f73247
         abs_dest = os.path.join(self.testdir, reldest)
 
         dir, ext = os.path.splitext(abs_dest)
