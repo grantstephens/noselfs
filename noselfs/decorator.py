@@ -58,9 +58,10 @@ class lfstest(object):
         file_name = pkg_resources.resource_filename(
             mod, file_name_relative
         )
-        return self.lfs_pull(file_name)
 
-    def lfs_pull(self, file_name):
+        return self.lfs_pull(file_name, file_name_relative)
+
+    def lfs_pull(self, file_name, file_name_relative):
         if not os.path.isfile(file_name):
             raise IOError('Filename or Pointer ({}) is not available.'.format(
                 file_name))

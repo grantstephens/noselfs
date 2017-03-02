@@ -4,8 +4,8 @@ import os
 import pkg_resources
 
 
-def dummy():
-    return
+def dummy(self, file_name):
+    return file_name
 
 
 class TestNoseLFSDecorator(unittest.TestCase):
@@ -23,3 +23,8 @@ class TestNoseLFSDecorator(unittest.TestCase):
         lfsf = lfstest('test_fake_file.txt', 'data', 'unit')
         with self.assertRaises(IOError):
             lfsf(dummy)
+
+    def test_file_pull(self):
+        lfsf = lfstest('fake_pointer.txt', 'data', 'unit')
+        file_name = lfsf(dummy)
+        file_name('sometext')
