@@ -15,12 +15,13 @@ class LfsTestBase(unittest.TestCase):
         if os.path.exists(self.testdir):
             shutil.rmtree(self.testdir)
 
-    def get_file(self, abs_src, reldest=None):
-        if reldest is None or reldest == '':
-            reldest = os.path.split(abs_src)[1]
+    def get_file(self, abs_datadir, rel_src, rel_dest=None):
+        if rel_dest is None or rel_dest == '':
+            rel_dest = os.path.split(rel_src)[1]
 
-        abs_src = lfstest().lfs_pull(abs_src, reldest)
-        abs_dest = os.path.join(self.testdir, reldest)
+        abs_src = os.path.join(abs_datadir, rel_src)
+        abs_dest = os.path.join(self.testdir, rel_dest)
+        lfstest().lfs_pull(abs_src, rel_src)
 
         dir, ext = os.path.splitext(abs_dest)
         if len(ext) > 0:
