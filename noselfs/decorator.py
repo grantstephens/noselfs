@@ -42,10 +42,11 @@ class lfstest(object):
         @attr(*self.attrib, **self.named_attrib)
         @wraps(f)
         def wrapper(self, *args, **kwargs):
+
             if file_name_pass is None:
-                f(self, *args, **kwargs)
+                return f(self, *args, **kwargs)
             else:
-                f(self, file_name_pass, *args, **kwargs)
+                return f(self, file_name_pass, *args, **kwargs)
 
         return wrapper
 
