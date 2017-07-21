@@ -63,7 +63,6 @@ class lfstest(object):
         return self.lfs_pull(file_name, file_name_relative)
 
     def lfs_pull(self, file_name, file_name_relative):
-        import ipdb; ipdb.set_trace()
         if not os.path.isfile(file_name):
             raise IOError('Filename or Pointer ({}) is not available.'.format(
                 file_name))
