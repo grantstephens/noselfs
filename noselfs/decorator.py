@@ -42,10 +42,11 @@ class lfstest(object):
         @attr(*self.attrib, **self.named_attrib)
         @wraps(f)
         def wrapper(self, *args, **kwargs):
+
             if file_name_pass is None:
-                f(self, *args, **kwargs)
+                return f(self, *args, **kwargs)
             else:
-                f(self, file_name_pass, *args, **kwargs)
+                return f(self, file_name_pass, *args, **kwargs)
 
         return wrapper
 
@@ -67,17 +68,18 @@ class lfstest(object):
                 file_name))
         elif os.path.getsize(file_name) < 300:
             with open(file_name) as open_file:
-                check_words = [next(open_file).split(' ')[0] for x in range(3)]
-            if all(word in check_words for word in ['version', 'size', 'oid']):
-                process = subprocess.Popen(
-                    shlex.split(
-                        'git lfs pull --include="{}" --exclude=""'.format(
-                            os.path.join('**', file_name_relative))),
-                    stdout=subprocess.PIPE
-                )
-                output, error = process.communicate()
-                if error is not None:
-                    raise Exception(
-                        'Tried LFS pull. Failed with: {}'.format(error)
+                if (('version' in open_file.read()) &
+                        ('size' in open_file.read()) &
+                        ('oid' in open_file.read())):
+                    process = subprocess.Popen(
+                        shlex.split(
+                            'git lfs pull --include="{}" --exclude=""'.format(
+                                os.path.join('**', file_name_relative))),
+                        stdout=subprocess.PIPE
                     )
+                    output, error = process.communicate()
+                    if error is not None:
+                        raise Exception(
+                            'Tried LFS pull. Failed with: {}'.format(error)
+                        )
         return file_name
