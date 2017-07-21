@@ -1,5 +1,4 @@
 __version__ = "0.0.10"
-
 """
 Changelog:
 0.0.10: Minor Bug fix relating to very small test files. Now searches.
