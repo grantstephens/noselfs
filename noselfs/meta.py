@@ -1,7 +1,7 @@
 __version__ = "0.0.11"
 """
 Changelog:
-0.0.10: Minor Bug fix relating to very small test files. Now searches- correctly
+0.0.11: Minor Bug fix relating to very small test files. Now searches- correctly
 0.0.10: Minor Bug fix relating to very small test files. Now searches.
 0.0.9: Return the original function result through the decorator.
 0.0.8: Updated the testbase class to handle relative paths correctly

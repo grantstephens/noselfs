@@ -72,6 +72,7 @@ class lfstest(object):
                 if (('version' in open_file_data) and
                         ('size' in open_file_data) and
                         ('oid' in open_file_data)):
+
                     process = subprocess.Popen(
                         shlex.split(
                             'git lfs pull --include="{}" --exclude=""'.format(
