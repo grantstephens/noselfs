@@ -63,14 +63,16 @@ class lfstest(object):
         return self.lfs_pull(file_name, file_name_relative)
 
     def lfs_pull(self, file_name, file_name_relative):
+        import ipdb; ipdb.set_trace()
         if not os.path.isfile(file_name):
             raise IOError('Filename or Pointer ({}) is not available.'.format(
                 file_name))
         elif os.path.getsize(file_name) < 300:
             with open(file_name) as open_file:
-                if (('version' in open_file.read()) &
-                        ('size' in open_file.read()) &
-                        ('oid' in open_file.read())):
+                open_file_data = open_file.read()
+                if (('version' in open_file_data) and
+                        ('size' in open_file_data) and
+                        ('oid' in open_file_data)):
                     process = subprocess.Popen(
                         shlex.split(
                             'git lfs pull --include="{}" --exclude=""'.format(
